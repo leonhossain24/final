@@ -6,10 +6,13 @@ var bodyParser = require('body-parser');
 
 
 
+
+
+//for c9
 var db;
 var db_url = "mongodb://"+process.env.IP+":27017"
 
-
+/* CW 9b*/
 var mongoose = require("mongoose");
 
 mongoose.connect(db_url+"/node-cw9");
@@ -20,17 +23,29 @@ mongoose.connection.on('error', function(err){
 
 var Schema = mongoose.Schema;
 
-var articleSchema = new Schema({
-  title: {
+var taskSchema = new Schema({
+  task-name: {
     type: String,
-    required: "Title required"
+    required: "Task name required"
   },
-  content: {
-    type: String
+  priority: {
+    type: Number,
+     required: "Task priority required"
+  },
+  notes: {
+    type: String,
+     required: "Task notes required"
   }
 });
 
-var Article = mongoose.model('Article', articleSchema)
+var Task = mongoose.model('Task', taskSchema)
+
+
+
+// app.use('/static', express.static('public'));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 
 
@@ -38,46 +53,54 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.get('/', function(request, response){
-  response.sendFile(__dirname+'/index.html');
+  response.sendFile(__dirname+'/index.ejs');
 });
 
 app.get('/about-page', function(request, response){
-  response.sendFile(__dirname+'/about.html');
+  response.sendFile(__dirname+'/about.ejs');
 });
 
-app.get('/new-article', function(request, response){
-  response.sendFile(__dirname+'/form.html');
+app.get('/new-task', function(request, response){
+  response.sendFile(__dirname+'/form.ejs');
 });
 
-var article = [];
+var task = [];
 
-app.post('/article/create', function(request, response){
-  var new_article = new Article(request.body);
-  new_article.save(function(err, data){
+app.post('/task/create', function(request, response){
+  var new_task = new Task(request.body);
+  new_task.save(function(err, data){
     if(err)
       return response.status(400)
-                    .json({error: "Please add a title"});
+                    .json({error: "Please input the required fields!"});
     console.log(data);
     return response.status(200)
-                    .json({message: "Article successfully created"});
+                    .json({message: "Task successfully created"});
 
   })
 
   console.log(request.body);
-  // article.push(request.body);
-  //save(request.body)
+  
 });
 
-app.get('/article/list', function(request, response){
-  return response.status(200).json({articles: article});
-})
 
-article.push({title:"Test article 1", content:"content 1"});
-article.push({title:"Test article 2", content:"content 2"});
+// app.get('/task/list', function(request, response){
+//   return response.status(200).json({tasks: task});
+// })
 
-app.get('/article/:articleID', function(request, response){
-  response.render('../article.ejs', {
-    article:article[request.params.articleID]
+
+app.get('/task/', function(request, response){
+  response.render('../list.ejs', {
+    tasks:task
+  })
+});
+
+
+article.push({task-name:"Test task 1", priority:2, notes:"task 1 is not funny anymore!!!"});
+article.push({task-name:"Test task 2", priority:9, notes:"task 2 is fun"});
+
+app.get('/task/:taskID', function(request, response){
+  response.render('../task.ejs', {
+    task:task[request.params.taskID]
   })
 });
 

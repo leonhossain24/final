@@ -6,24 +6,37 @@
   </head>
   <body>
     <h1>New Task</h1>
-    <input type="text" id="TASk" placeholder="TASK"><br/><br/>
-    <textarea id="content" placeholder="PRIORITY (0 to 10)"></textarea><br/>
-    <textarea id="content" placeholder="NOTES"></textarea><br/>
-    <button id="submit"> ADD</button>
-   
+    
+    <input type="text" id="task-name" placeholder="Task" required><br/><br/>
+    
+    <textarea id="content" placeholder="Priority" required></textarea><br/>
+    
+    <input type="number" id="priority" name="priority"
+       min="0" max="10" placeholder='PRIORITY (0 TO 10)' required><br/>
+       
+        <textarea id="notes" placeholder="Notes" required></textarea><br/>
+    
+    
+    <!--submit er jaygay add liksi -->
+    <button id="add">Add</button>
+    
+    <button id="getArticles">Get all tasks</button>
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous"></script>
+      
+      
     <script>
-      var article = {title:"", content:""};
-      $('#submit').click(function(event){
-        article.title = $('#title').val();
-        article.content = $('#content').val();
+      var task = {task-name:"", priority:"", notes:""};
+      $('#add').click(function(event){
+        task.task-name = $('#task-name').val();
+        task.priority = $('#priority').val();
+        task.notes = $('#notes').val();
         $.ajax({
           method:"POST",
-          url:"/article/create",
-          data: article
+          url:"/task/create",
+          data: task
         }).done(function(response){
           console.log(response);
         }).fail(function(response){
@@ -31,10 +44,10 @@
         });
       });
 
-      $('#getArticles').click(function(event){
+      $('#getTasks').click(function(event){
         $.ajax({
           method:"GET",
-          url:"/article/list"
+          url:"/task/list"
         }).done(function(response){
           console.log(response);
         }).fail(function(response){
