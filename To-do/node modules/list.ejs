@@ -1,0 +1,32 @@
+<html>
+    
+    <head>
+        <title>ALL TASKS</title>
+        <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <!--<link  href ="/assets/styles.css" rel = "stylesheet" type="text/css"/>-->
+  
+    </head>
+    <body>
+        <h1>ALL TASKS</h1>
+    <div id ="task-table">
+        
+        <ul>
+          <% for ( var i = 0; i< tasks.length; i++){ %>
+          
+            <li><%= tasks[i].task-name %></li><br>
+            
+            <li><%= tasks[i].item %></li><br>
+            
+            <li><%= tasks[i].item %></li><br>
+                  
+                  <% } %>
+        </ul>
+        
+        
+    </div>
+    <script src="/assets/todo-list.js"></script>
+    </body>
+</html>

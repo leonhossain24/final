@@ -6,13 +6,10 @@ var bodyParser = require('body-parser');
 
 
 
-
-
-//for c9
 var db;
 var db_url = "mongodb://"+process.env.IP+":27017"
 
-/* CW 9b*/
+
 var mongoose = require("mongoose");
 
 mongoose.connect(db_url+"/node-cw9");
